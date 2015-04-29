@@ -20,6 +20,12 @@ GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO '<%= node["percona"]["ba
 
 # Set the server root password. This should be preseeded by the package installation.
 SET PASSWORD FOR 'root'@'localhost' = PASSWORD('<%= @root_password %>');
+SET PASSWORD FOR 'root'@'127.0.0.1' = PASSWORD('<%= @root_password %>');
+SET PASSWORD FOR 'root'@'::1' = PASSWORD('<%= @root_password %>');
+SET PASSWORD FOR ''@'localhost' = PASSWORD('<%= @root_password %>');
 
+use mysql;
+UPDATE user SET password = PASSWORD('<%= @root_password %>') WHERE Host='<%= node["fqdn"]%>' AND User='root';
+UPDATE user SET password = PASSWORD('<%= @root_password %>') WHERE Host='<%= node["fqdn"]%>' AND User='';
 
 FLUSH PRIVILEGES;

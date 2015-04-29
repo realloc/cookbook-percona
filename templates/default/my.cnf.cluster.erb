@@ -82,8 +82,12 @@ wsrep_slave_threads            = <%= node["percona"]["cluster"]["wsrep_slave_thr
 wsrep_cluster_name             = <%= node["percona"]["cluster"]["wsrep_cluster_name"] %>
 wsrep_sst_method               = <%= node["percona"]["cluster"]["wsrep_sst_method"] %>
 wsrep_node_name                = <%= node["percona"]["cluster"]["wsrep_node_name"] %>
+<%  unless node["percona"]["cluster"]["wsrep_notify_cmd"].empty? -%>
 wsrep_notify_cmd               = <%= node["percona"]["cluster"]["wsrep_notify_cmd"] %>
+<% end -%>
+<%  unless node["percona"]["cluster"]["wsrep_sst_receive_address"].empty? -%>
 wsrep_sst_receive_address      = <%= node["percona"]["cluster"]["wsrep_sst_receive_address"] %>
+<% end -%>
 <%  unless node["percona"]["cluster"]["wsrep_sst_auth"].empty? -%>
 wsrep_sst_auth                 = <%= node["percona"]["cluster"]["wsrep_sst_auth"] %>
 <% end -%>

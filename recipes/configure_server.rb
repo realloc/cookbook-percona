@@ -128,6 +128,20 @@ template percona["main_config_file"] do
   end
 end
 
+file "#{node["percona"]["server"]["datadir"]}/.bootstrap_done" do
+  content "Gereated bu Chef. Don't delete until you want re-bootstrap."
+  action :nothing
+end
+
+# FIXME: Add other or support
+service "mysql@bootstrap" do
+  supports restart: true
+  action :start
+  only_if { node["percona"]["cluster"]["bootstrap"] }
+  not_if { ::File.exists?( "#{node["percona"]["server"]["datadir"]}/.bootstrap_done" ) }
+  notifies :create, "file[#{node["percona"]["server"]["datadir"]}/.bootstrap_done]", :immediately
+end
+
 # now let's set the root password only if this is the initial install
 unless node["percona"]["skip_passwords"]
   root_pw = passwords.root_password

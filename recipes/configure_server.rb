@@ -133,9 +133,8 @@ file "#{node["percona"]["server"]["datadir"]}/.bootstrap_done" do
   action :nothing
 end
 
-# FIXME: Add other or support
+# FIXME: Add other OS support
 service "mysql@bootstrap" do
-  supports restart: true
   action :start
   only_if { node["percona"]["cluster"]["bootstrap"] }
   not_if { ::File.exists?( "#{node["percona"]["server"]["datadir"]}/.bootstrap_done" ) }
